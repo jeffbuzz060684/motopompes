@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<meta name="description" content="Fiches techniques et procédures de démarrage des motopompes : MARK 3 WATSON, TOHATSU VE 1500, EFP-500-FL flottante, FYR PAK feu de forêt">
+<title>Motopompes — Notices de démarrage</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+  :root { --bg:#0f172a; --bg2:#1e293b; --line:#334155; --txt:#e2e8f0; --mut:#94a3b8; --red:#ef4444; }
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; background:var(--bg); color:var(--txt); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; font-size:17px; line-height:1.45; }
+  .wrap { max-width:780px; margin:0 auto; padding:16px 14px 40px; }
+  h1 { font-size:1.55rem; margin:.2rem 0 0; letter-spacing:-.02em; }
+  h1 .sub { display:block; font-size:.95rem; font-weight:600; color:var(--mut); margin-top:.15rem; }
+  header { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:14px; }
+  .ver { font-size:.72rem; color:var(--mut); border:1px solid var(--line); border-radius:8px; padding:2px 8px; white-space:nowrap; margin-top:6px; }
+  nav { display:flex; gap:8px; overflow-x:auto; padding:2px 2px 10px; margin-bottom:12px; scrollbar-width:thin; }
+  .tab { flex:0 0 auto; padding:9px 14px; border-radius:12px; border:1px solid var(--line); background:var(--bg2); color:var(--txt); font-weight:700; font-size:.86rem; cursor:pointer; }
+  .tab.active { background:var(--red); border-color:var(--red); color:#fff; }
+  .head-card { border-radius:14px; border:1px solid; padding:14px 16px; display:flex; gap:14px; align-items:flex-start; margin-bottom:12px; }
+  .head-card .em { font-size:2.4rem; line-height:1; }
+  .head-card h2 { margin:0; font-size:1.3rem; }
+  .head-card p { margin:.15rem 0 0; color:var(--mut); font-size:.85rem; }
+  .fuel { border-radius:12px; border:1px solid; padding:10px 14px; font-weight:700; font-size:.95rem; margin-bottom:12px; }
+  .card { border-radius:14px; background:rgba(30,41,59,.7); border:1px solid var(--line); padding:14px 14px; margin-bottom:14px; }
+  .card h3 { margin:0 0 10px; font-size:1.05rem; display:flex; align-items:center; gap:8px; }
+  .card h3 .sq { width:8px; height:18px; border-radius:3px; display:inline-block; }
+  .spec { border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .spec .row { display:flex; padding:8px 12px; gap:12px; align-items:flex-start; }
+  .spec .row:nth-child(odd) { background:rgba(30,41,59,.6); }
+  .spec .k { width:40%; min-width:140px; flex:0 0 auto; font-weight:600; color:#cbd5e1; font-size:.92rem; }
+  .spec .v { font-size:.92rem; }
+  .bar { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .bar .track { flex:1; height:10px; border-radius:6px; background:var(--line); overflow:hidden; }
+  .bar .fill { height:100%; border-radius:6px; transition:width .25s; }
+  .bar .n { font-size:.85rem; font-weight:700; color:#cbd5e1; white-space:nowrap; }
+  .bar button { font-size:.72rem; font-weight:700; padding:4px 9px; border-radius:8px; border:1px solid var(--line); background:var(--bg2); color:var(--txt); cursor:pointer; }
+  ol.steps { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  ol.steps li button { width:100%; text-align:left; display:flex; gap:12px; align-items:flex-start; padding:10px 12px; border-radius:12px; border:1px solid var(--line); background:rgba(30,41,59,.4); cursor:pointer; color:var(--txt); font-size:.95rem; }
+  ol.steps li button .num { flex:0 0 auto; width:28px; height:28px; border-radius:50%; background:var(--line); color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center; font-size:.85rem; }
+  ol.steps li button.done { border-color:var(--acc); background:color-mix(in srgb, var(--acc) 14%, transparent); }
+  ol.steps li button.done .num { background:var(--acc); }
+  ol.steps li button.done .t { color:#94a3b8; text-decoration:line-through; }
+  ol.steps li button .d { display:block; font-size:.8rem; color:var(--mut); margin-top:2px; }
+  ol.steps li button .t.warn { color:#fde047; }
+  .done-msg { border-radius:10px; background:rgba(16,185,129,.15); border:1px solid rgba(16,185,129,.4); color:#6ee7b7; font-weight:700; text-align:center; padding:8px; margin-top:10px; font-size:.9rem; }
+  .ctrls { display:grid; grid-template-columns:1fr; gap:8px; }
+  @media (min-width:560px){ .ctrls { grid-template-columns:1fr 1fr; } }
+  .ctrl { display:flex; gap:10px; align-items:center; background:rgba(30,41,59,.5); border:1px solid var(--line); border-radius:10px; padding:8px 12px; }
+  .ctrl .b { width:30px; height:30px; border-radius:8px; color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center; font-size:.9rem; text-transform:uppercase; }
+  .delrow { display:flex; gap:12px; align-items:flex-start; background:rgba(30,41,59,.5); border:1px solid var(--line); border-radius:10px; padding:8px 12px; }
+  .delrow + .delrow { margin-top:8px; }
+  .delrow .led { flex:0 0 auto; width:26px; height:26px; border-radius:50%; margin-top:1px; display:flex; align-items:center; justify-content:center; font-size:.45rem; font-weight:900; color:rgba(0,0,0,.65); }
+  .delrow .st { font-weight:700; font-size:.92rem; }
+  .delrow .mg { font-size:.82rem; color:var(--mut); }
+  ul.blt { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  ul.blt li { display:flex; gap:10px; align-items:flex-start; font-size:.93rem; }
+  ul.blt li::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--acc, var(--red)); margin-top:8px; flex:0 0 auto; }
+  .cmpline { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+  .cmpline .lbl { width:38%; min-width:120px; flex:0 0 auto; font-weight:600; font-size:.85rem; color:#cbd5e1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .cmpline .btrack { flex:1; height:24px; border-radius:8px; background:rgba(51,65,85,.6); overflow:hidden; }
+  .cmpline .bfill { height:100%; border-radius:8px; display:flex; align-items:center; justify-content:flex-end; padding-right:7px; color:#fff; font-weight:800; font-size:.75rem; }
+  .cmp { overflow-x:auto; }
+  .cmp table { border-collapse:collapse; width:100%; min-width:660px; font-size:.82rem; }
+  .cmp th, .cmp td { padding:7px 8px; text-align:left; vertical-align:top; }
+  .cmp th.l { color:var(--mut); font-weight:600; }
+  .cmp tr:nth-child(odd) td { background:rgba(30,41,59,.5); }
+  .note { font-size:.75rem; color:var(--mut); margin:8px 2px 0; }
+  .src { font-size:.72rem; color:#64748b; margin:2px 2px 0; }
+  footer { text-align:center; font-size:.72rem; color:#475569; margin-top:22px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🚒 Motopompes<span class="sub">Notices de démarrage &amp; fiches techniques</span></h1>
+    <div class="ver" id="ver">v?</div>
+  </header>
+  <div id="app"></div>
+  <footer>Contenu extrait des 4 notices PDF — BMPM / SDIS · 2026</footer>
+</div>
+<script>
+"use strict";
+/* ============================================================
+   Motopompes — PWA v1 · 04/10/2026
+   Contenu extrait des 4 notices PDF de Jade :
+   1. MARK 3 WATSON  2. TOHATSU VE 1500  3. EFP-500-FL  4. FYR PAK
+   ============================================================ */
+
+var PUMPS = [
+  {
+    id: "mark3", name: "MARK 3 WATSON",
+    subtitle: "Portable feu de forêt — Code Gallin G221123",
+    emoji: "🌲", acc: "#f97316",
+    specs: [
+      ["Type pompe", "Centrifuge amovible haute pression à 4 étages"],
+      ["Aspiration / Refoulement", "SYM 40 / DSP 40"],
+      ["Hauteur de charge max.", "267 m"],
+      ["Pression max.", "26,2 bars"],
+      ["Débit max.", "379 l/min"],
+      ["Performances", "303 l/min à 6,9 bars · 265 l/min à 10,3 bars · 151 l/min à 17,2 bars"],
+      ["Dimensions (L × l × h)", "549 × 305 × 356 mm"],
+      ["Poids", "19 kg"],
+      ["Moteur", "WATERAX 140 cm³, 2 temps, refroidi par air, cylindre Nikasil"],
+      ["Puissance max.", "7,9 kW — 10,6 ch à 7 700 tr/min"],
+      ["Démarrage", "Démarreur à rappel automatique avec poulie d'urgence"],
+      ["Carburant", "Mélange 50:1 essence/huile — essence sans plomb indice d'octane mini 87 (max 10 % éthanol) — huile 2 temps certifiée API-TC, JASO FD, ISO-L-EGD"],
+      ["Réservoir", "Jerrican déporté 20 L"],
+      ["Consommation", "5,7 L/h"]
+    ],
+    fuelNote: "CARBURANT = ASPEN 2",
+    start: [
+      { t: "Basculer le harnais vers l'avant" },
+      { t: "Raccorder le flexible carburant", d: "Sur le jerrican déporté de 20 L (Aspen 2)." },
+      { t: "Mettre le starter en position démarrage", d: "Le starter doit être dans la position « fermée »." },
+      { t: "Placer le levier d'accélérateur sur START", d: "3e position à partir d'IDLE." },
+      { t: "Mettre en eau avant le démarrage" },
+      { t: "Faire tourner lentement la corde", d: "Pour mettre en tension la corde du démarreur." },
+      { t: "Tirer rapidement sur la corde du démarreur" },
+      { t: "Ajuster l'accélérateur une fois démarré" }
+    ],
+    stop: [{ t: "Appuyer seulement sur le bouton OFF pour couper la motopompe" }],
+    del: [
+      ["Vert clignotant", "Moteur en phase de préchauffage.", "#38bdf8"],
+      ["Vert fixe", "Moteur réchauffé — peut fonctionner en toute sécurité à plein régime.", "#34d399"],
+      ["Jaune clignotant", "Régime &lt; 1 000 tr/min (bas régime) : ARRÊT DU MOTEUR — probablement manque de carburant.", "#facc15"],
+      ["Jaune fixe", "Problème de câblage, capteur de température déconnecté, court-circuit capteur, bouton d'arrêt déconnecté ou contact desserré — n'entraîne jamais l'arrêt du moteur.", "#facc15"],
+      ["Bleu clignotant", "Régime &gt; 9 000 tr/min (survitesse) : ARRÊT DU MOTEUR — condition de désamorçage de la pompe.", "#60a5fa"],
+      ["Rouge clignotant", "Température moteur au-dessus du seuil d'avertissement ; au-delà de la température max autorisée : ARRÊT DU MOTEUR.", "#ef4444"],
+      ["Rouge fixe", "Gradient de température trop élevé : ARRÊT DU MOTEUR — carburateur trop pauvre ou pas d'huile dans le carburant.", "#ef4444"]
+    ],
+    source: "Notice « démarrage motopompe MARCK-3 » (PDF, 2 pages)"
+  },
+  {
+    id: "tohatsu", name: "TOHATSU VE 1500",
+    subtitle: "Motopompe sur panier hélitransportable — 271 kg avec panier",
+    emoji: "🚁", acc: "#0ea5e9",
+    specs: [
+      ["Moteur — type", "2 temps, 2 cylindres, refroidi par eau"],
+      ["Cylindrée", "804 cm³"],
+      ["Puissance nominale / max.", "60 ch / 44 kW"],
+      ["Carburant", "Essence Super"],
+      ["Capacité réservoir", "24 L"],
+      ["Consommation", "22 L/h"],
+      ["Démarrage", "Électrique + lanceur à corde retour automatique"],
+      ["Lubrification", "Autograissage automatique"],
+      ["Batterie", "12 V — 16 Ah"],
+      ["Pompe — type", "Centrifuge, mono-étage haute pression"],
+      ["Refoulement", "2 × DSP 65"],
+      ["Aspiration", "AR 100"],
+      ["Amorçage (aspiration à 3 m)", "Manuel (levier d'amorçage)"],
+      ["Performances (aspiration à 3 m)", "1 800 l/min à 8 bars · 1 500 l/min à 10 bars"],
+      ["Débit max.", "120 m³/h (2 000 l/min)"],
+      ["Pression max.", "16 bars"],
+      ["Granulométrie", "0,5 mm"],
+      ["Dimensions (L × l × h)", "75 × 73 × 83 cm"],
+      ["Poids (unité)", "127 kg"]
+    ],
+    controls: [
+      ["a", "Interrupteur général"], ["b", "Commande des gaz"], ["c", "Position de démarrage"],
+      ["d", "Horamètre"], ["f", "Alarme niveau d'huile"], ["g", "Alarme température moteur"], ["h", "Alerte batterie"]
+    ],
+    start: [
+      { t: "Fermer les purges" },
+      { t: "Mettre en eau avant le démarrage" },
+      { t: "Placer l'accélérateur sur « S » (position de démarrage)" },
+      { t: "Tourner le bouton du démarreur sur la droite", d: "Tourner plusieurs fois si besoin, jusqu'au démarrage de la motopompe." },
+      { t: "Ajuster l'accélérateur en fonction du besoin" }
+    ],
+    extra: [
+      "Remplissage huile moteur : vérifier avant démarrage (alarme niveau d'huile).",
+      "Levier d'amorçage : à utiliser pour l'aspiration.",
+      "Remplissage carburant : essence Super uniquement."
+    ],
+    source: "Notice « démarrage motopompe TOHATSU » (PDF, 2 pages)"
+  },
+  {
+    id: "efp500", name: "EFP-500-FL (GEYSER)",
+    subtitle: "Motopompe flottante haute pression — Mise en service manuelle",
+    emoji: "🌊", acc: "#10b989",
+    specs: [
+      ["Débit max.", "480 l/min"],
+      ["Élévation max.", "95 m"],
+      ["Refoulement", "2″ mâle"],
+      ["Moteur", "2 temps, 124 cm³"],
+      ["Mise en service", "Manuelle"],
+      ["Capacité réservoir", "5 L"],
+      ["Dimensions", "830 × 515 × 425 mm"],
+      ["Poids", "21,2 kg"],
+      ["Option", "Démarrage électrique"]
+    ],
+    fuelNote: "⚠ Réservoir essence = MÉLANGE à 4 % (essence + huile 2 temps)",
+    start: [
+      { t: "Essence MÉLANGÉE à 4 % avec huile 2 temps uniquement", warn: true },
+      { t: "Ne PAS projeter d'eau dans la sortie d'échappement", d: "Risque de serrage du moteur.", warn: true },
+      { t: "Amarrer la motopompe flottante" },
+      { t: "Raccorder le tuyau à la sortie de refoulement", d: "Possibilité d'utiliser des flotteurs." },
+      { t: "Brancher la batterie externe (JUMP STARTER) sur la motopompe" },
+      { t: "Ouvrir la vanne carburant (ON)" },
+      { t: "Mettre le levier du starter sur ON" },
+      { t: "Mettre le bouton sur ON" },
+      { t: "Appuyer sur le bouton de démarrage" },
+      { t: "Après le claquage de la motopompe, remettre le levier du starter sur OFF" },
+      { t: "Une fois la motopompe démarrée, retirer la batterie externe" },
+      { t: "Poser doucement la motopompe en marche sur l'eau" },
+      { t: "Régler la pression de refoulement avec le levier d'accélérateur", d: "Sans excès." },
+      { t: "Après l'intervention : rinçage à l'eau claire", d: "Jamais de projection d'eau dans l'échappement." }
+    ],
+    extra: [
+      "Lanceur manuel disponible en secours (si plus de batterie).",
+      "Filtre à air et carburateur accessibles pour l'entretien courant."
+    ],
+    source: "Notice « motopompe flottante » EFP-500-FL (PDF, 2 pages)"
+  },
+  {
+    id: "fyrpak", name: "FYR PAK",
+    subtitle: "Motopompe thermique portable feu de forêt — FT-U BMNR 003",
+    emoji: "🔥", acc: "#ef4444",
+    specs: [
+      ["Marque", "FYR PAK"],
+      ["Moteur", "2 temps, refroidissement à air, 134 cm³, 8 ch (6 kW)"],
+      ["Carburant", "Mélange essence SP95 + 4 % huile moteur 2 temps"],
+      ["Pompe", "Centrifuge — pompe relais feu de forêt"],
+      ["Performances", "250 l/min à 4 bars · 140 l/min à 10 bars · 50 l/min à 13 bars"],
+      ["Refoulement", "Eau diam. 45"],
+      ["Équipement", "Claie de portage — jerrican 5 L — durite carburant avec poire d'amorçage"],
+      ["Coût TTC", "4 700 €"]
+    ],
+    fuelNote: "Jerrican 5 L : mélange essence SP95 / huile 4 %",
+    start: [
+      { t: "Remplir le jerrican du mélange SP95 + 4 % huile 2 temps" },
+      { t: "Connecter le jerrican avec la durite en respectant le sens du flux", d: "Dévisser le bouchon ¼ de tour pour la mise à l'air libre." },
+      { t: "Raccorder l'alimentation et le refoulement en eau (diam. 45)" },
+      { t: "Pomper 2 fois la poire d'amorçage" },
+      { t: "Basculer le contact sur ON" },
+      { t: "Basculer la commande de starter en position fermée" },
+      { t: "Positionner la poignée de gaz en position ouverte (plein régime)" },
+      { t: "Tirer sèchement sur le lanceur", d: "Jusqu'au premier démarrage moteur." },
+      { t: "Basculer la commande de starter en position ouverte" },
+      { t: "Tirer sèchement sur le lanceur (démarrage définitif)" }
+    ],
+    entretien: [
+      "Souffler le filtre à air après chaque utilisation.",
+      "Remisage : vider le jerrican du mélange restant.",
+      "Remisage : faire fonctionner la pompe jusqu'à consommation complète du carburant resté dans les durites et le carburateur."
+    ],
+    source: "Notice SDIS « FYR-PACK » FT-U BMNR 003 (PDF, 5 pages, BMNR Ésoine — validée CDT P. REVERSAT, 14/08/2009)"
+  }
+];
+
+var COMPARE = [
+  { id: "mark3", name: "MARK 3", debit: 379, debitLabel: "379 l/min" },
+  { id: "tohatsu", name: "TOHATSU VE 1500", debit: 2000, debitLabel: "2 000 l/min" },
+  { id: "efp500", name: "EFP-500-FL", debit: 480, debitLabel: "480 l/min" },
+  { id: "fyrpak", name: "FYR PAK", debit: 250, debitLabel: "250 l/min" }
+];
+
+var CMP_ROWS = [
+  ["Type", "Portable 4 étages", "Panier hélitransportable", "Flottante", "Portable relais FDF"],
+  ["Moteur", "2 temps 140 cm³ · 10,6 ch", "2 temps 804 cm³ · 60 ch (refroidi eau)", "2 temps 124 cm³", "2 temps 134 cm³ · 8 ch"],
+  ["Débit max.", "379 l/min", "2 000 l/min (120 m³/h)", "480 l/min", "250 l/min"],
+  ["Pression max.", "26,2 bars", "16 bars", "— (élévation 95 m)", "13 bars"],
+  ["Poids", "19 kg", "127 kg (271 kg avec panier)", "21,2 kg", "—"],
+  ["Carburant", "Aspen 2 — mélange 50:1", "Essence Super", "Mélange 4 %", "SP95 + 4 % huile 2 temps"],
+  ["Réservoir", "Jerrican déporté 20 L", "24 L", "5 L", "Jerrican 5 L"],
+  ["Consommation", "5,7 L/h", "22 L/h", "—", "—"],
+  ["Démarrage", "Corde rappel auto + poulie d'urgence", "Électrique + corde", "Électrique (batterie externe) + lanceur", "Lanceur manuel"]
+];
+
+var FUEL_RULES = [
+  "MARK 3 : Aspen 2, mélange 50:1 (essence sans plomb mini 87 + huile 2 temps API-TC/JASO FD/ISO-L-EGD)",
+  "TOHATSU VE 1500 : essence Super (pas de mélange)",
+  "EFP-500-FL : mélange 4 % huile 2 temps",
+  "FYR PAK : mélange SP95 + 4 % huile 2 temps"
+];
+
+var STORE_KEY = "motopompes-checks-v1";
+var APP_VERSION = "v1";
+
+/* ---------- utilitaires ---------- */
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+function loadChecks() {
+  try {
+    var raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return {};
+    var o = JSON.parse(raw);
+    return (o && typeof o === "object") ? o : {};
+  } catch (e) { return {}; }
+}
+function saveChecks(o) {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(o)); } catch (e) {}
+}
+function listKey(pumpId, list) { return pumpId + ":" + list; }
+function isDone(checks, pumpId, list, i) {
+  var l = checks[listKey(pumpId, list)];
+  return !!(l && l[i]);
+}
+function toggleCheck(checks, pumpId, list, i) {
+  var k = listKey(pumpId, list);
+  var l = checks[k] || {};
+  l[i] = !l[i];
+  if (!l[i]) delete l[i];
+  checks[k] = l;
+  return checks;
+}
+function resetList(checks, pumpId, list) {
+  delete checks[listKey(pumpId, list)];
+  return checks;
+}
+function countDone(checks, pumpId, list, total) {
+  var l = checks[listKey(pumpId, list)];
+  var n = 0;
+  if (l) { for (var i = 0; i < total; i++) { if (l[i]) n++; } }
+  return n;
+}
+function progressPct(count, total) {
+  if (!total) return 0;
+  return Math.round((count / total) * 1000) / 10;
+}
+
+/* ---------- rendu ---------- */
+function stepsHtml(pump, list, steps, checks) {
+  var done = 0;
+  var lis = steps.map(function (s, i) {
+    var isD = isDone(checks, pump.id, list, i);
+    if (isD) done++;
+    var warn = s.warn ? " warn" : "";
+    var d = s.d ? '<span class="d">' + esc(s.d) + "</span>" : "";
+    return '<li><button type="button" data-check="' + esc(pump.id) + "|" + list + "|" + i + '" class="' + (isD ? "done" : "") + '">' +
+      '<span class="num">' + (isD ? "✓" : (i + 1)) + "</span>" +
+      '<span><span class="t' + warn + '">' + (s.warn ? "⚠ " : "") + esc(s.t) + "</span>" + d + "</span></button></li>";
+  }).join("");
+  var pct = progressPct(done, steps.length);
+  var msg = done === steps.length ? '<div class="done-msg">✅ Procédure terminée</div>' : "";
+  return '<div class="bar"><div class="track"><div class="fill" style="width:' + pct + "%;background:" + pump.acc + '"></div></div>' +
+    '<span class="n">' + done + "/" + steps.length + "</span>" +
+    '<button type="button" data-reset="' + esc(pump.id) + "|" + list + '">↺ Réinitialiser</button></div>' +
+    '<ol class="steps">' + lis + "</ol>" + msg;
+}
+function specHtml(specs) {
+  return '<div class="spec">' + specs.map(function (kv, i) {
+    return '<div class="row"><div class="k">' + esc(kv[0]) + '</div><div class="v">' + esc(kv[1]) + "</div></div>";
+  }).join("") + "</div>";
+}
+function bulletsHtml(items) {
+  return '<ul class="blt">' + items.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>";
+}
+function pumpHtml(pump, checks) {
+  var h = '<div class="head-card" style="border-color:' + pump.acc + "55;background:" + pump.acc + '1a">' +
+    '<div class="em">' + pump.emoji + "</div><div><h2>" + esc(pump.name) + "</h2><p>" + esc(pump.subtitle) + "</p></div></div>";
+  if (pump.fuelNote) {
+    h += '<div class="fuel" style="border-color:' + pump.acc + '66;background:' + pump.acc + '17;color:' + pump.acc + '">🛢 ' + esc(pump.fuelNote) + "</div>";
+  }
+  h += '<div class="card"><h3><span class="sq" style="background:' + pump.acc + '"></span>📋 Fiche technique</h3>' + specHtml(pump.specs) + "</div>";
+  h += '<div class="card"><h3><span class="sq" style="background:' + pump.acc + '"></span>🚀 Procédure de démarrage</h3>' +
+    stepsHtml(pump, "start", pump.start, checks) + "</div>";
+  if (pump.stop) {
+    h += '<div class="card"><h3><span class="sq" style="background:' + pump.acc + '"></span>⏹ Arrêt</h3>' +
+      stepsHtml(pump, "stop", pump.stop, checks) + "</div>";
+  }
+  if (pump.controls) {
+    h += '<div class="card"><h3><span class="sq" style="background:' + pump.acc + '"></span>🎛 Commandes &amp; alarmes</h3><div class="ctrls">' +
+      pump.controls.map(function (c) {
+        return '<div class="ctrl"><span class="b" style="background:' + pump.acc + '">' + esc(c[0]) + "</span><span>" + esc(c[1]) + "</span></div>";
+      }).join("") + "</div></div>";
+  }
+  if (pump.del) {
+    h += '<div class="card"><h3><span class="sq" style="background:' + pump.acc + '"></span>💡 États du témoin DEL</h3>' +
+      pump.del.map(function (r) {
+        return '<div class="delrow"><span class="led" style="background:' + r[2] + '">LED</span><div><div class="st">' + esc(r[0]) + '</div><div class="mg">' + r[1] + "</div></div></div>";
+      }).join("") + "</div>";
+  }
+  if (pump.entretien) {
+    h += '<div class="card"><h3><span class="sq" style="background:' + pump.acc + '"></span>🔧 Entretien &amp; remisage</h3>' + bulletsHtml(pump.entretien) + "</div>";
+  }
+  if (pump.extra) {
+    h += '<div class="card"><h3><span class="sq" style="background:' + pump.acc + '"></span>📌 Points clés</h3>' + bulletsHtml(pump.extra) + "</div>";
+  }
+  h += '<p class="src">Source : ' + esc(pump.source) + "</p>";
+  return h;
+}
+function compareHtml() {
+  var maxD = 0;
+  COMPARE.forEach(function (c) { if (c.debit > maxD) maxD = c.debit; });
+  var accOf = {};
+  PUMPS.forEach(function (p) { accOf[p.id] = p.acc; });
+  var bars = COMPARE.map(function (c) {
+    var w = Math.max((c.debit / maxD) * 100, 12);
+    return '<div class="cmpline"><span class="lbl">' + esc(c.name) + '</span><div class="btrack"><div class="bfill" style="width:' + w + "%;background:" + accOf[c.id] + '">' + esc(c.debitLabel) + "</div></div></div>";
+  }).join("");
+  var table = '<table><thead><tr><th class="l"></th>' + PUMPS.map(function (p) {
+    return "<th>" + esc(p.name) + "</th>";
+  }).join("") + "</tr></thead><tbody>" +
+    CMP_ROWS.map(function (r) {
+      return "<tr><td>" + esc(r[0]) + "</td>" + r.slice(1).map(function (c) { return "<td>" + esc(c) + "</td>"; }).join("") + "</tr>";
+    }).join("") + "</tbody></table>";
+  return '<div class="card"><h3><span class="sq" style="background:#f97316"></span>📊 Débit max.</h3>' + bars +
+    '<p class="note">Pression max. : MARK 3 → 26,2 bars · TOHATSU → 16 bars · FYR PAK → 13 bars · EFP-500-FL → élévation max. 95 m.</p></div>' +
+    '<div class="card"><h3><span class="sq" style="background:#0ea5e9"></span>⚖️ Tableau comparatif</h3><div class="cmp">' + table + "</div></div>" +
+    '<div class="card"><h3><span class="sq" style="background:#ef4444"></span>⚠ Règles carburant à ne jamais confondre</h3>' + bulletsHtml(FUEL_RULES) + "</div>";
+}
+
+/* ---------- app ---------- */
+var state = { tab: "mark3" };
+var checks = loadChecks();
+
+function render() {
+  var app = document.getElementById("app");
+  if (!app) return;
+  var tabs = PUMPS.map(function (p) {
+    return '<button type="button" class="tab' + (state.tab === p.id ? " active" : "") + '" data-tab="' + esc(p.id) + '">' + p.emoji + " " + esc(p.name) + "</button>";
+  }).join("") + '<button type="button" class="tab' + (state.tab === "compare" ? " active" : "") + '" data-tab="compare">📊 Comparatif</button>';
+  var body = state.tab === "compare" ? compareHtml() : pumpHtml(PUMPS.filter(function (p) { return p.id === state.tab; })[0], checks);
+  app.innerHTML = '<nav>' + tabs + "</nav>" + body;
+}
+
+function onClick(e) {
+  var t = e.target;
+  while (t && t !== document.body) {
+    if (t.getAttribute) {
+      var tab = t.getAttribute("data-tab");
+      if (tab) { state.tab = tab; render(); return; }
+      var chk = t.getAttribute("data-check");
+      if (chk) {
+        var parts = chk.split("|");
+        toggleCheck(checks, parts[0], parts[1], parseInt(parts[2], 10));
+        saveChecks(checks);
+        render();
+        return;
+      }
+      var rst = t.getAttribute("data-reset");
+      if (rst) {
+        var rp = rst.split("|");
+        resetList(checks, rp[0], rp[1]);
+        saveChecks(checks);
+        render();
+        return;
+      }
+    }
+    t = t.parentNode;
+  }
+}
+
+function loadVersion() {
+  var el = document.getElementById("ver");
+  if (!el || typeof fetch !== "function") return;
+  fetch("version.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (v) {
+    if (v && v.version) el.textContent = "💾 Hors ligne · " + v.version;
+  }).catch(function () {});
+}
+
+function main() {
+  render();
+  loadVersion();
+  var app = document.getElementById("app");
+  if (app && app.addEventListener) app.addEventListener("click", onClick);
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js").catch(function () {});
+  }
+  if (navigator.storage && navigator.storage.persist) {
+    try { navigator.storage.persist(); } catch (e) {}
+  }
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", main);
+else main();
+
+/* exposition pour les tests */
+window.__MOTO = {
+  PUMPS: PUMPS, COMPARE: COMPARE, CMP_ROWS: CMP_ROWS, FUEL_RULES: FUEL_RULES,
+  esc: esc, loadChecks: loadChecks, toggleCheck: toggleCheck, resetList: resetList,
+  isDone: isDone, countDone: countDone, progressPct: progressPct,
+  pumpHtml: pumpHtml, compareHtml: compareHtml, stepsHtml: stepsHtml,
+  state: state, STORE_KEY: STORE_KEY, APP_VERSION: APP_VERSION, loadVersion: loadVersion
+};
+</script>
+</body>
+</html>
