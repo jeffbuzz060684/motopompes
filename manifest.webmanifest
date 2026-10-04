@@ -1,7 +1,7 @@
 {
-  "name": "Motopompes — Notices de démarrage",
-  "short_name": "Motopompes",
-  "description": "Fiches techniques et procédures de démarrage des motopompes MARK 3, TOHATSU VE 1500, EFP-500-FL et FYR PAK — hors ligne",
+  "name": "HELI — DIH & motopompes",
+  "short_name": "HELI",
+  "description": "DIH BMPM : fiche réflexe, grue CM DIH, formations équipier et chef d'équipe, notices motopompes MARK 3, TOHATSU VE 1500, EFP-500-FL, FYR PAK — hors ligne",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

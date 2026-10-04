@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f172a">
-<meta name="description" content="Fiches techniques et procédures de démarrage des motopompes : MARK 3 WATSON, TOHATSU VE 1500, EFP-500-FL flottante, FYR PAK feu de forêt">
-<title>Motopompes — Notices de démarrage</title>
+<meta name="description" content="DIH BMPM : fiche réflexe, grue CM DIH, formations équipier et chef d'équipe, notices motopompes MARK 3, TOHATSU VE 1500, EFP-500-FL, FYR PAK — hors ligne">
+<title>HELI — DIH &amp; motopompes</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
@@ -28,7 +28,8 @@
   .fuel { border-radius:12px; border:1px solid; padding:10px 14px; font-weight:700; font-size:.95rem; margin-bottom:12px; }
   .card { border-radius:14px; background:rgba(30,41,59,.7); border:1px solid var(--line); padding:14px 14px; margin-bottom:14px; }
   .card h3 { margin:0 0 10px; font-size:1.05rem; display:flex; align-items:center; gap:8px; }
-  .card h3 .sq { width:8px; height:18px; border-radius:3px; display:inline-block; }
+  .card h3 .sq { width:8px; height:18px; border-radius:3px; display:inline-block; flex:0 0 auto; }
+  .intro { font-size:.85rem; color:var(--mut); margin:0 0 10px; }
   .spec { border:1px solid var(--line); border-radius:10px; overflow:hidden; }
   .spec .row { display:flex; padding:8px 12px; gap:12px; align-items:flex-start; }
   .spec .row:nth-child(odd) { background:rgba(30,41,59,.6); }
@@ -60,12 +61,16 @@
   ul.blt { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
   ul.blt li { display:flex; gap:10px; align-items:flex-start; font-size:.93rem; }
   ul.blt li::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--acc, var(--red)); margin-top:8px; flex:0 0 auto; }
+  .sign { display:flex; gap:10px; align-items:center; background:rgba(30,41,59,.5); border:1px solid var(--line); border-radius:10px; padding:7px 12px; }
+  .sign + .sign { margin-top:8px; }
+  .sign .code { flex:0 0 auto; min-width:52px; text-align:center; font-weight:800; font-size:.85rem; border-radius:8px; padding:4px 6px; background:var(--acc, var(--red)); color:#fff; }
+  .sign .sg { font-size:.92rem; }
   .cmpline { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
   .cmpline .lbl { width:38%; min-width:120px; flex:0 0 auto; font-weight:600; font-size:.85rem; color:#cbd5e1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .cmpline .btrack { flex:1; height:24px; border-radius:8px; background:rgba(51,65,85,.6); overflow:hidden; }
   .cmpline .bfill { height:100%; border-radius:8px; display:flex; align-items:center; justify-content:flex-end; padding-right:7px; color:#fff; font-weight:800; font-size:.75rem; }
   .cmp { overflow-x:auto; }
-  .cmp table { border-collapse:collapse; width:100%; min-width:660px; font-size:.82rem; }
+  .cmp table { border-collapse:collapse; width:100%; min-width:560px; font-size:.82rem; }
   .cmp th, .cmp td { padding:7px 8px; text-align:left; vertical-align:top; }
   .cmp th.l { color:var(--mut); font-weight:600; }
   .cmp tr:nth-child(odd) td { background:rgba(30,41,59,.5); }
@@ -77,17 +82,18 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>🚒 Motopompes<span class="sub">Notices de démarrage &amp; fiches techniques</span></h1>
+    <h1>🚁 HELI<span class="sub">DIH · Fiches réflexes &amp; notices — BMPM</span></h1>
     <div class="ver" id="ver">v?</div>
   </header>
   <div id="app"></div>
-  <footer>Contenu extrait des 4 notices PDF — BMPM / SDIS · 2026</footer>
+  <footer>Contenu extrait des documents DIH (BMPM / SOS HELI) et des notices motopompes — 2026</footer>
 </div>
 <script>
 "use strict";
 /* ============================================================
-   Motopompes — PWA v1 · 04/10/2026
-   Contenu extrait des 4 notices PDF de Jade :
+   HELI — PWA v2 · 04/10/2026
+   DIH : fiche réflexe N°1, grue CM DIH, formations équipier
+   et chef d'équipe (BMPM/SOS HELI) + notices motopompes :
    1. MARK 3 WATSON  2. TOHATSU VE 1500  3. EFP-500-FL  4. FYR PAK
    ============================================================ */
 
@@ -162,7 +168,7 @@ var PUMPS = [
     ],
     controls: [
       ["a", "Interrupteur général"], ["b", "Commande des gaz"], ["c", "Position de démarrage"],
-      ["d", "Horamètre"], ["f", "Alarme niveau d'huile"], ["g", "Alarme température moteur"], ["h", "Alerte batterie"]
+      ["d", "Horomètre"], ["f", "Alarme niveau d'huile"], ["g", "Alarme température moteur"], ["h", "Alerte batterie"]
     ],
     start: [
       { t: "Fermer les purges" },
@@ -278,8 +284,387 @@ var FUEL_RULES = [
   "FYR PAK : mélange SP95 + 4 % huile 2 temps"
 ];
 
+/* ---------- Documents DIH (v2) ---------- */
+var DOCS = [
+  {
+    id: "reflexe", name: "Fiche réflexe N°1", tabName: "Réflexe N°1",
+    emoji: "📋", acc: "#f59e0b",
+    subtitle: "HELI — Version DIH « Feux de forêts » · Intervention sur commune / hors commune · Mise à jour : 16/04/2020",
+    sections: [
+      {
+        icon: "🚨", title: "Phase 1 — Réception de l'alerte", type: "steps", list: "p1",
+        steps: [
+          { t: "Prise en compte de la mission", d: "Localisation · nature de la mission · présence ou pas d'hélicoptère." },
+          { t: "Informer l'adjudant de SOS", d: "Action chef de groupe HELI et COSSIM." },
+          { t: "Informer l'autorité HELI (action COSSIM)", d: "Incluse au stick si départ hors commune." },
+          { t: "Demander au COSSIM", d: "Fréquence de chantier · fréquence de contact avec l'hélicoptère et son indicatif · type d'hélicoptère et sa provenance · point de rendez-vous avec hélicoptère (DZ)." },
+          { t: "Connaître les moyens se rendant au point de rassemblement", d: "A/o CdG. S'assurer de l'engagement minimum de 2 CCF pour la constitution du stick." }
+        ]
+      },
+      {
+        icon: "🧑‍🤝‍🧑", title: "Phase 2 — Accueil du personnel : ordre préparatoire (PATRACDR)", type: "steps", list: "p2",
+        intro: "Personnel réuni : le chef de stick communique à l'OGEM le délai estimé de préparation de la mission et le temps de ralliement sur zone. Désigner un adjoint au chef de stick.",
+        steps: [
+          { t: "P — Personnel", d: "Vérifier qualité, habilitations et état physique. DIH 1 : équipier, conducteur PL · DIH 2 : DZE, DZP, chef d'équipe." },
+          { t: "A — Armement", d: "Vérifier matériels et inventaires." },
+          { t: "T — Tenues", d: "Vérifier les EPI." },
+          { t: "R — Radios", d: "Vérifier postes mobiles et portatifs." },
+          { t: "A — Alimentation", d: "A/o 2e Chef : rations alimentaires, boissons, carburants et ingrédients supplémentaires éventuels. Prévoir une autonomie du groupe de 48 h." },
+          { t: "C — Commandement", d: "Répartir rôles et affectations par véhicules selon mission et lieu. DZE : adjoint au chef de stick · 1er Chef : responsable matériel CM DIH." },
+          { t: "D — Déroulement", d: "Phases essentielles et durée prévisible de la mission : quand, comment, pourquoi, autres moyens engagés ?" },
+          { t: "R — Rendez-vous", d: "Lieu et heure." }
+        ]
+      },
+      {
+        icon: "🎒", title: "Phase 3 — Préparation de la mission", type: "steps", list: "p3",
+        steps: [
+          { t: "Se munir de la clé N°23 du bureau HELI", d: "Bat A 1er étage, a/o CdG LVN ou, si absent, au STD LVN. Trousseau de clés sur les portatifs ANTARES : accès mezzanine, réserve carburant et petit local Bat B (PAS au local GIMAé)." },
+          { t: "Préparer le sac du chef de stick", d: "cartes IGN, DFCI et boussole · radios (7 Antarès, 80 mHz, VHF marine et aéro + accus) · chargeurs accus, multi-prises." },
+          { t: "Selon le lieu et le type de mission : matériels supplémentaires", d: "Rations (local DIH Bat B) et eau pour au moins 48 h · couchages et vêtements chauds (sacs OPS DIH déjà constitués) · trousse de premiers secours · trousse à outils · sac protection auditive et lunettes." },
+          { t: "Matériel complémentaire", d: "Groupe éclairages / électrogènes portables · tronçonneuses · débroussailleuses · bâches supplémentaires (500, 800, 1000) · bidons carburant (mélange) supplémentaires (garage caisson carburant HELI)." }
+        ]
+      },
+      {
+        icon: "🚦", title: "Phase 4 — Départ en mission", type: "steps", list: "p4",
+        steps: [
+          { t: "Communiquer la liste du personnel au COSSIM", d: "Renseigner la fiche « personnel » dans le bureau HELI : qualité, quantité, coordonnées individuelles, éventuellement numéro de mobile du chef de stick." },
+          { t: "Intervention hors commune : perception à l'état-major", d: "A/o CdC HELI et OGEM : carte carburant · cartes autoroute · argent en numéraire · si départ pour la Corse, voir avec le CMP pour médicaments contre le mal de mer." },
+          { t: "Réaliser l'ordre de mouvement (DPIF)", d: "Direction · Point à atteindre · Itinéraire · Formation (ordre de marche des engins, intervalles, vitesse, signaux, canal à veiller, consignes de sécurité)." }
+        ]
+      },
+      {
+        icon: "📝", title: "Observations", type: "bullets",
+        items: [
+          "Pour renfort extérieur : VRCC, VRCG, CM DIH, 2 CCF, TPHR.",
+          "Dans le cadre du référentiel, le stick peut travailler à 7 pax en attente d'être complété."
+        ]
+      }
+    ],
+    source: "Fiche réflexe DIH — Fiche N°1 (PDF, 2 pages, HELI Version DIH « Feux de forêts », MAJ 16/04/2020)"
+  },
+  {
+    id: "grue", name: "Grue auxiliaire du CM DIH", tabName: "Grue CM",
+    emoji: "🏗", acc: "#a78bfa",
+    subtitle: "Fiche de tâche DIH — Mise en œuvre de la grue auxiliaire du Camion Matériel",
+    sections: [
+      {
+        icon: "🔌", title: "1 — Mise sous tension de l'équipement", type: "steps", list: "g1",
+        steps: [
+          { t: "Enclencher la prise de mouvement au poste de conduite en cabine", d: "Émission d'un BIP long." },
+          { t: "Déverrouiller les boutons d'arrêts d'urgence (BAU) de la grue et de la télécommande" },
+          { t: "Allumer la télécommande (bouton POWER)", d: "Émission d'un BIP court. Vérifier la charge de la batterie sur l'écran." }
+        ]
+      },
+      {
+        icon: "🧱", title: "2 — Stabilisation du véhicule", type: "steps", list: "g2",
+        steps: [
+          { t: "Sélectionner l'icône stabilisation au menu déroulant (molette) puis valider" },
+          { t: "Vérifier l'affichage « stabilisateurs ? » et valider avec les deux boutons de part et d'autre du BAU", d: "Émission d'un BIP court." },
+          { t: "Vérifier sur l'écran de la grue le schéma de position des stabilisateurs" },
+          { t: "Déverrouiller les deux sécurités mécaniques du stabilisateur" },
+          { t: "Sortir la poutre en largeur uniquement" },
+          { t: "Retirer la goupille anti-rotation du vérin" },
+          { t: "Amener le vérin en position basse par rotation vers l'arrière du véhicule" },
+          { t: "Remettre la goupille anti-rotation du vérin" },
+          { t: "Sortir la poutre jusqu'au repère et verrouiller celle-ci" },
+          { t: "Positionner la vanne trois voies sur le stabilisateur besoin (1 ou 2)" },
+          { t: "Mettre le vérin en appui au sol avec la manette rouge", d: "Mettre à niveau le véhicule en utilisant les niveaux à bulles sur le support stabilisateurs." },
+          { t: "Vérifier l'acquittement de la stabilisation sur l'écran de la grue", d: "Remplissage des symboles stabilisateurs en noir." },
+          { t: "Répéter les opérations 4 à 12 pour le second stabilisateur" }
+        ]
+      },
+      {
+        icon: "🏗", title: "3 — Utilisation de la grue", type: "steps", list: "g3",
+        steps: [
+          { t: "Sélectionner l'icône grue au menu déroulant (molette) puis valider" },
+          { t: "Vérifier l'affichage « grue ? » et valider avec les deux boutons de part et d'autre du BAU" },
+          { t: "Vérifier l'affichage « grue au repos » (sécurité)" },
+          { t: "Actionner la manette de mouvement du bras secondaire pendant 10 s", d: "Faire disparaître « grue au repos » et autoriser les mouvements." },
+          { t: "Manipuler la grue en déployant d'abord le bras principal" }
+        ]
+      },
+      {
+        icon: "⚠️", title: "Sécurité pendant la manœuvre", type: "bullets",
+        items: [
+          "NE JAMAIS se placer sous le bras ou la charge.",
+          "BIP alternatif = 90 % de la charge autorisée.",
+          "BIP continu = 100 % de la charge et arrêt du mouvement : effectuer une manœuvre non aggravante pour pouvoir continuer à utiliser la grue."
+        ]
+      },
+      {
+        icon: "📦", title: "4 — Remise en place de la grue", type: "steps", list: "g4",
+        steps: [
+          { t: "Replier le bras entièrement" },
+          { t: "Effectuer la rotation et positionner la grue sur le repère côté conducteur", d: "Flèches." },
+          { t: "Finaliser la mise en place en position route côté passager", d: "Positionner la grue dans son logement et vérifier le verrouillage du télescope." }
+        ]
+      },
+      {
+        icon: "🚚", title: "5 — Mise en position route du véhicule", type: "steps", list: "g5",
+        steps: [
+          { t: "Sélectionner l'icône stabilisation au menu déroulant (molette) puis valider" },
+          { t: "Vérifier l'affichage « stabilisateurs ? » et valider avec les deux boutons de part et d'autre du BAU", d: "Émission d'un BIP court." },
+          { t: "Ranger les stabilisateurs en effectuant les opérations de la mise en appui jusqu'au verrouillage, en sens inverse", d: "Opérations du §2.11 au §2.4." },
+          { t: "Appuyer sur les deux BAU de la grue et de la télécommande pour les mettre hors tension" },
+          { t: "Annuler la prise de mouvement au poste de conduite en cabine" }
+        ],
+        note: "La position route dispose de 3 sécurités : un capteur sur la grue et un capteur sur chaque stabilisateur qui valident le boîtier MOL dans le poste de conduite."
+      }
+    ],
+    source: "Fiche de tâche DIH — Mise en œuvre de la grue auxiliaire du CM DIH (PDF, 4 pages)"
+  },
+  {
+    id: "equipier", name: "Équipier DIH — Connaissances essentielles", tabName: "Équipier",
+    emoji: "📘", acc: "#38bdf8",
+    subtitle: "Formation équipier DIH · BMPM/SOS HELI · août 2020",
+    sections: [
+      {
+        icon: "🛠", title: "Matériel hydraulique", type: "spec",
+        items: [
+          ["Motopompes (identiques CCF)", "Débit/pression 250/4 · 160/9 · 80/12 — 16 kg — carburant mélange 4 % — autonomie 8 h mini (avec 20 litres)"],
+          ["Motopompe flottante (type Fyrflot)", "Caractéristiques quasi identiques — 22 kg"],
+          ["Motopompe type WAJAX", "250/10 — 25 kg — orifices DN 65"],
+          ["Citernes souples", "500 · 800 ou 1000 litres — projetées en sling là où ni réserve d'eau ni engin tonne ni établissement de tuyau ne sont possibles"],
+          ["Claies de 45", "Robinets mono en plus de la division à clapet 45/45/2×23 — une seule armée d'une lance 40/14"],
+          ["Claies de 23", "Deux lances 20/7 — une seule avec division 45/2×23, une autre avec étrangleur à tuyaux"],
+          ["Armement du CM DIH", "4 claies de 45 + 4 claies de 23 (sacs de portage souples) + 2 claies de 70 (1 tuyau 70/40 chacune)"],
+          ["Groupe d'éclairage", "Groupe électrogène + 2 projecteurs 500 W et trépieds — 27 kg — mélange 4 %"]
+        ]
+      },
+      {
+        icon: "🧑‍🤝‍🧑", title: "Organisation du stick (13 hommes)", type: "table",
+        head: ["Ressource", "Personnel", "Emploi stick", "Moyen HELI"],
+        rows: [
+          ["FI LVN", "CA", "DZE", "CM DIH"],
+          ["", "CE1", "BIN", ""],
+          ["", "EQ1", "", ""],
+          ["", "CE2", "BIN", "TPHR DIH"],
+          ["", "EQ2", "", ""],
+          ["", "CD", "MECA", "VRCG DIH"],
+          ["CCF GPTN", "CA/CDIP", "DZP", "CCF GPTN"],
+          ["", "EQ", "MECA", ""],
+          ["", "CD", "ALIM", ""],
+          ["", "CA", "BIN", "CCF GPTN"],
+          ["", "EQ", "", ""],
+          ["", "CD", "ALIM", ""],
+          ["VRCG XX", "CDG", "CDG", "VRCG DIH"],
+          ["", "CD (*)", "NON DIH", "TPHR DIH"]
+        ],
+        note: "(*) lorsque le CDG est issu d'un CIS, il dispose d'un CD non DIH ; celui-ci peut être intégré ou non au stick. Le stick = 1 binôme manœuvres hélicoptères + 4 binômes manœuvres d'établissements + 1 binôme d'alimentation, sous la direction d'un chef de stick."
+      },
+      {
+        icon: "🚒", title: "Engins de lutte & hélicoptères", type: "spec",
+        items: [
+          ["VRCG DIH", "2 hommes"],
+          ["CM DIH", "3 hommes"],
+          ["CCF", "2 × 3 hommes"],
+          ["TPHR DIH", "2 hommes"],
+          ["Écureuil", "BMPM / SDIS"],
+          ["EC145", "Sécurité civile"],
+          ["Dauphin-Panther", "Marine nationale"],
+          ["Caïman-NH90", "Marine nationale"]
+        ]
+      },
+      {
+        icon: "💧", title: "Les établissements", type: "bullets",
+        items: [
+          "Claies de tuyaux 45 ou 23 mm, claies motopompe et carburant — réalisés par des binômes de manœuvre.",
+          "Depuis un engin pompe tonne ou un vecteur nautique : claies de portage version commando (débuter éventuellement en 70 mm pour limiter les pertes en charge) ou dévidoir aérien (600 m DN 45 / 400 m DN 70) en version héliportée.",
+          "Depuis une motopompe en aspiration sur un plan d'eau naturel ou artificiel + claies de portage.",
+          "À partir d'une citerne souple déposée préalablement en sling + claies de portage.",
+          "Alimentation de l'engin : avec le concours d'un DAFF au besoin, ou par noria de CCF lorsque la ressource existe.",
+          "IMPORTANT : le positionnement judicieux des organes de sectionnement (claies de 45) garantit la pérennité de l'eau. Le chef du binôme d'alimentation assure l'ouverture/fermeture de chaque robinet (rôle de fontainier), en liaison radio permanente avec le chef de manœuvre à la pointe de l'établissement."
+        ]
+      },
+      {
+        icon: "⛺", title: "Bivouac", type: "bullets",
+        items: [
+          "Installation une heure avant le coucher du soleil — endroit plat, sans aspérité, hors zone humide.",
+          "Ouverture de la tente face au soleil du matin ou dos au vent — tente à distance du feu (feu seulement si nécessaire).",
+          "Confort : sac ouvert, matelas gonflé, tente fermée avant usage — espace intérieur organisé — produit répulsif — coucher avec tee-shirt manches longues, bonnet et chaussettes propres si nuit froide — ne rien laisser à l'extérieur — linge mouillé à l'extérieur avant la nuit puis à l'intérieur.",
+          "Hygiène collective : latrines pas trop loin, pas trop près (simple trou à la pelle) — papier hygiénique protégé de l'humidité dans un sachet Ziploc.",
+          "Autonomie 48 h : 3 repas/homme/jour (collations et rations auto-chauffantes) et 8 litres d'eau/homme/jour — pour le stick : 42 repas ou équivalent et 112 litres d'eau."
+        ]
+      },
+      {
+        icon: "🚁", title: "Zones d'évolution de la machine (DZ)", type: "spec",
+        items: [
+          ["Zone d'emport (DZE)", "Accueil des machines, embarquement du personnel, préparation des slings — PLANE, ÉTENDUE (surface minimum 30 × 30 m), DÉGAGÉE, ACCESSIBLE par la route"],
+          ["Zone de poser (DZP)", "Au plus proche du sinistre, dépose du personnel et du matériel — DÉGAGÉE (posé machine pas nécessaire), PLANE (dimensions des citernes souples au minimum)"],
+          ["IMPORTANT", "La zone de poser est la zone de repli du personnel en cas de danger"]
+        ]
+      },
+      {
+        icon: "🛡", title: "Sécurité hélicoptère — embarquement / débarquement", type: "bullets",
+        items: [
+          "Attente accroupi en bordure de zone (A/O DZE) — port du casque, des protections auditives, des lunettes et des gants.",
+          "Embarquement sur ordre de l'équipage, relayé par le DZE (geste conventionnel).",
+          "Approche de la machine par le secteur avant en terrain plat, par le côté aval en terrain en dévers.",
+          "Passage sous le disque rotor tête basse sans précipitation — matériel transporté à bout de bras en partie basse, jamais à l'épaule.",
+          "Monter dans l'appareil sans à-coups — placement à bord aux ordres de l'équipage — bouclage de la ceinture de sécurité sur siège.",
+          "MÉMOIRE : disque rotor principal 12 à 16 m selon l'hélicoptère — souffle au sol important et proportionnel."
+        ]
+      },
+      {
+        icon: "✈️", title: "Sécurité hélicoptère — vol", type: "bullets",
+        items: [
+          "Port de la brassière de sécurité si survol maritime (A/O commandant de bord).",
+          "Pas de déplacement dans la machine après installation.",
+          "Accessoires transportés non mobiles (risque d'accrochage / détérioration).",
+          "Aucune action sur élément du bord quel qu'il soit — ne pas s'appuyer sur les sièges du personnel navigant.",
+          "Dialogue possible seulement avec l'équipage désigné et hors manœuvre critique.",
+          "Toute anomalie ou erreur repérée est signalée sans délai."
+        ]
+      },
+      {
+        icon: "🪝", title: "Sling — transport de charge externe", type: "bullets",
+        items: [
+          "Filet de taille unique : 3,4 m de côté — charge maximale 1 à 1,4 tonne selon le filet (sous réserve des contraintes aéronautiques de l'appareil).",
+          "Conditionnement : centrer la charge pour équilibrer sa masse suspendue — parties sensibles à l'abri des mailles une fois le filet suspendu et en tension — regrouper tous les anneaux du filet avec une manille connectée à une élingue textile.",
+          "Agrès d'élingage manuel : élingue de 10 m (validée par le commandant de bord au briefing d'avant vol) — point tournant placé le plus près possible de la charge — anneau métallique ou manille à l'extrémité pour le crochet délesteur.",
+          "Agrès d'élingage électrique : décrochage par commande électrique du pilote — matériel dédié à la machine.",
+          "Opérateur sol qui guide (DZE ou DZP) : casque, protections auditives, lunettes, gants, chaussures de sécurité, chasuble de couleur jaune, éventuellement radio « main libre » — placé vers l'avant de l'appareil, assez loin de la charge pour être vu par le pilote en place droite.",
+          "Signes conventionnels de circulation au sol des aéronefs : STANAG-3117 / publication interalliée sur la sécurité des vols / OTAN 2014."
+        ]
+      }
+    ],
+    source: "Formation ÉQUIPIER DIH — Connaissances essentielles (PDF, 20 pages, BMPM/SOS HELI, août 2020) — identique au référentiel de formation DIH BMPM"
+  },
+  {
+    id: "chef", name: "Chef d'équipe DIH — Connaissances essentielles", tabName: "Chef d'éq.",
+    emoji: "🎖", acc: "#f472b6",
+    subtitle: "Formation chef d'équipe DIH · BMPM/SOS HELI · août 2019",
+    sections: [
+      {
+        icon: "💧", title: "Permanence de l'eau dans l'établissement", type: "spec",
+        items: [
+          ["Eau instantanément disponible (2 CCFM)", "7 000 à 8 000 litres selon les modèles"],
+          ["Contenance tuyau 70", "4 litres / mètre"],
+          ["Contenance tuyau 45", "2 litres / mètre"],
+          ["Contenance tuyau 25", "0,5 litre / mètre"],
+          ["Sectionnement", "Ouverture/fermeture de chaque robinet par le chef du binôme d'alimentation (fontainier), en liaison radio permanente avec la pointe de l'établissement — gère aussi les avaries (remplacement de tuyau)"]
+        ]
+      },
+      {
+        icon: "🎯", title: "Travail des lances (modèle HUGJET)", type: "spec",
+        items: [
+          ["Lance 40/12", "250 l/min à 3,5 bars"],
+          ["Lance 20/7", "80 l/min à 3,5 bars"]
+        ]
+      },
+      {
+        icon: "📉", title: "Pertes de charge", type: "table",
+        head: ["Tuyau / débit nominal (l/min)", "Jn / hm"],
+        rows: [
+          ["70 / 500", "0,5"],
+          ["45 / 250", "1,5"],
+          ["25 / 80", "3,5"]
+        ],
+        note: "Ajouter J/Z = +1 (Z+) ou −1 (Z−) pour une hauteur de 10 mètres — paramètre le plus difficile à quantifier sur le terrain sauf à utiliser un altimètre."
+      },
+      {
+        icon: "⚙️", title: "Indice de pompe", type: "table",
+        head: ["Pompe", "Débit / pression"],
+        rows: [
+          ["U 5000 GIMAEX", "1000/15"],
+          ["U 5000 CAMIVA", "1500/15"],
+          ["RVI GIMAEX", "1500/15"],
+          ["RVI SIDES", "2000/15"],
+          ["FYRPACK (DSP 45)", "250/4 ou 80/12"],
+          ["WAJAX (DSP 70)", "250/10"]
+        ],
+        note: "Les tuyaux ne supportent pas plus de 15 bars de pression de service. Motopompes portatives : ne pas utiliser plus de 2/3 de la capacité disponible (contraintes mécaniques). Préparer la manœuvre à minima sur éléments cartographiques (distance / dénivelé) et intégrer pertes de charge et pompe en relais — réflexion du chef de groupe partagée avec son adjoint."
+      },
+      {
+        icon: "📻", title: "Prise de contact avec un appareil en approche", type: "bullets",
+        items: [
+          "Indicatif radio du contact au sol : DIH MARSEILLE — fréquence de travail communiquée par le COSSIM.",
+          "Informer sur : position du chantier · dangers aéronautiques · situation générale sur la DZ (identification au sol, secteur et force du vent — anémomètre).",
+          "Procédure radio : note de service n°31 DIV OPS du 16 juin 2017.",
+          "Indicatifs : MORANE (HBE des collectivités) · DRAGON (Sécurité civile) · GUEPARD / HELIOS ou ARES (Marine nationale, selon la flottille).",
+          "Appareils de l'armée de l'air et de l'ALAT : communications seulement après posé sur la DZ et contact physique avec l'équipage.",
+          "Radio de tête : ergonomie et qualité de transmission en environnement bruyant. Le chef de stick est en liaison avec l'appareil sur la fréquence dédiée ; les DZE et DZP veillent cette fréquence sur leur zone.",
+          "Organisation des transmissions précisée au briefing d'avant vol avec l'équipage."
+        ]
+      },
+      {
+        icon: "✋", title: "Signes conventionnels de circulation au sol", type: "signs",
+        signs: [
+          ["A-8", "Avancez tout droit"],
+          ["A-11", "Reculez"],
+          ["A-15", "Demande de faire avancer du personnel vers l'aéronef"],
+          ["A-16", "Personnel approchant de l'aéronef"],
+          ["A-52", "Maintenez la position / attendez"],
+          ["B-1", "Décollez"],
+          ["B-2", "Restez en vol stationnaire"],
+          ["B-3", "Montez"],
+          ["B-4", "Déplacez-vous vers la gauche"],
+          ["B-5", "Déplacez-vous vers la droite"],
+          ["B-10", "Descendez"],
+          ["B-11", "Atterrissez"],
+          ["B-17", "Décrochez la charge"],
+          ["B-18", "La charge n'est pas libérée (problème avec la charge)"]
+        ],
+        note: "STANAG-3117 / publication interalliée sur la sécurité des vols / OTAN 2014. Seuls les DZE et DZP guident, identifiables par leur chasuble jaune, à l'exclusion de toute autre personne sur la zone."
+      },
+      {
+        icon: "🗺", title: "Organisation des zones d'emport et de posé", type: "bullets",
+        items: [
+          "Zone d'emport : présentation de l'appareil et son atterrissage · conditionnement des slings (possiblement avant l'arrivée de l'appareil) · approvisionnement en eau des citernes souples projetées · avitaillement éventuel de l'appareil par un engin spécialisé. Espace dimensionné selon le nombre et le type d'appareils.",
+          "Zone de poser : un espace correspondant à minima à deux citernes souples simultanées suffit.",
+          "Sécurité : inspection minutieuse du revêtement avant l'arrivée de l'appareil (principe tarmac d'aérodrome) — écarter tout objet ou débris projetables par le souffle du rotor — humidifier le sol si très poussiéreux — veille physique des accès par un personnel présent."
+        ]
+      },
+      {
+        icon: "🪝", title: "Projection du personnel et du matériel", type: "bullets",
+        items: [
+          "Plan des rotations établi conjointement entre le pilote / commandant de bord et le chef de groupe au briefing d'avant vol — le directeur de zone est responsable de son respect.",
+          "Préparation des charges supervisée par le DZE — devis de poids établi au briefing et validé par le commandant de bord ; l'agrès d'élingage est également validé.",
+          "Une charge qui subit une modification est de nouveau contrôlée — AUCUNE charge n'est accrochée et enlevée sans l'accord du chef de zone.",
+          "Sécurité du transport de charge externe : poids · équilibrage · arrimage."
+        ]
+      },
+      {
+        icon: "⚖️", title: "Poids de référence des matériels projetables", type: "table",
+        head: ["Matériel", "Capacité", "Poids (kg)"],
+        rows: [
+          ["Claie de portage", "DN 45", "35"],
+          ["", "DN 23 / carburant / motopompe", "25"],
+          ["Citerne souple (vide)", "500", "20"],
+          ["", "800 / 1000", "30"],
+          ["Dévidoir aérien", "DN 70", "280"],
+          ["", "DN 45", "220"],
+          ["", "vide", "60"],
+          ["Tronçonneuse", "—", "7"]
+        ],
+        note: "Poids de référence d'un pax = 80 kg."
+      },
+      {
+        icon: "🥫", title: "Approvisionnement des besoins", type: "bullets",
+        items: [
+          "Soutien logistique : au niveau de la zone d'emport, sous la responsabilité du DZE. Préférer laisser en place un établissement en charge pour approvisionner l'eau plutôt que réaliser des mouvements d'engins sur la DZ.",
+          "Avitaillement de l'hélicoptère sur le chantier : réalisé par un service spécialisé, le DZE se coordonne avec le personnel en charge.",
+          "Soutien de l'homme : à l'écart de la zone d'emport (nuisances des mouvements d'aéronefs, bivouac éventuel) — structure en dur généralement source de confort.",
+          "Besoins physiologiques essentiels : eau 8 litres / personne / jour · repas équivalent 3 / personne / jour · toilettes (espace réservé, préparé et connu) · douche 1 / personne / jour · couchage à l'abri de l'humidité."
+        ]
+      },
+      {
+        icon: "🌬", title: "Annexes — KESTREL & ICOM M87", type: "spec",
+        items: [
+          ["Station météo KESTREL", "Mesure vitesse du vent, température de l'air, altitude et pression (avec déclinaisons)"],
+          ["KESTREL — altimètre", "Renseigner l'altitude de référence du lieu (carte topographique) une fois la pression du lieu mesurée"],
+          ["KESTREL — température", "Mesurer à l'ombre, agiter l'appareil 15 s pour une réponse rapide (sinon attendre 1 min)"],
+          ["KESTREL — limites", "Utilisation −15 °C à +50 °C · stockage −30 °C à +80 °C · étanche à 1 m et flotte · chute maximum 2 m"],
+          ["E/R portatif VHF marine ICOM M87", "Communications sur les réseaux ANTARES et VHF marine"]
+        ]
+      }
+    ],
+    source: "Formation CHEF D'ÉQUIPE DIH — Connaissances essentielles (PDF, 13 pages, BMPM/SOS HELI, août 2019)"
+  }
+];
+
 var STORE_KEY = "motopompes-checks-v1";
-var APP_VERSION = "v1";
+var APP_VERSION = "v2";
 
 /* ---------- utilitaires ---------- */
 function esc(s) {
@@ -344,16 +729,49 @@ function stepsHtml(pump, list, steps, checks) {
     '<ol class="steps">' + lis + "</ol>" + msg;
 }
 function specHtml(specs) {
-  return '<div class="spec">' + specs.map(function (kv, i) {
+  return '<div class="spec">' + specs.map(function (kv) {
     return '<div class="row"><div class="k">' + esc(kv[0]) + '</div><div class="v">' + esc(kv[1]) + "</div></div>";
   }).join("") + "</div>";
 }
 function bulletsHtml(items) {
   return '<ul class="blt">' + items.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>";
 }
+function tableHtml(sec) {
+  var h = '<div class="cmp"><table><thead><tr>' + sec.head.map(function (c) {
+    return '<th class="l">' + esc(c) + "</th>";
+  }).join("") + "</tr></thead><tbody>" +
+    sec.rows.map(function (r) {
+      return "<tr>" + r.map(function (c) { return "<td>" + esc(c) + "</td>"; }).join("") + "</tr>";
+    }).join("") + "</tbody></table></div>";
+  if (sec.note) h += '<p class="note">' + esc(sec.note) + "</p>";
+  return h;
+}
+function signsHtml(signs) {
+  return signs.map(function (s) {
+    return '<div class="sign"><span class="code">' + esc(s[0]) + '</span><span class="sg">' + esc(s[1]) + "</span></div>";
+  }).join("");
+}
+function sectionHtml(doc, sec, checks) {
+  var h = '<div class="card"><h3><span class="sq" style="background:' + doc.acc + '"></span>' + sec.icon + " " + esc(sec.title) + "</h3>";
+  if (sec.intro) h += '<p class="intro">' + esc(sec.intro) + "</p>";
+  if (sec.type === "steps") h += stepsHtml(doc, sec.list, sec.steps, checks);
+  else if (sec.type === "bullets") h += bulletsHtml(sec.items);
+  else if (sec.type === "spec") h += specHtml(sec.items);
+  else if (sec.type === "table") h += tableHtml(sec);
+  else if (sec.type === "signs") { h += signsHtml(sec.signs); if (sec.note) h += '<p class="note">' + esc(sec.note) + "</p>"; }
+  h += "</div>";
+  return h;
+}
+function docHtml(doc, checks) {
+  var h = '<div class="head-card" style="border-color:' + doc.acc + "55;background:" + doc.acc + '1a">' +
+    '<div class="em">' + doc.emoji + '</div><div><h2>' + esc(doc.name) + "</h2><p>" + esc(doc.subtitle) + "</p></div></div>";
+  doc.sections.forEach(function (sec) { h += sectionHtml(doc, sec, checks); });
+  h += '<p class="src">Source : ' + esc(doc.source) + "</p>";
+  return h;
+}
 function pumpHtml(pump, checks) {
   var h = '<div class="head-card" style="border-color:' + pump.acc + "55;background:" + pump.acc + '1a">' +
-    '<div class="em">' + pump.emoji + "</div><div><h2>" + esc(pump.name) + "</h2><p>" + esc(pump.subtitle) + "</p></div></div>";
+    '<div class="em">' + pump.emoji + '</div><div><h2>' + esc(pump.name) + "</h2><p>" + esc(pump.subtitle) + "</p></div></div>";
   if (pump.fuelNote) {
     h += '<div class="fuel" style="border-color:' + pump.acc + '66;background:' + pump.acc + '17;color:' + pump.acc + '">🛢 ' + esc(pump.fuelNote) + "</div>";
   }
@@ -367,7 +785,7 @@ function pumpHtml(pump, checks) {
   if (pump.controls) {
     h += '<div class="card"><h3><span class="sq" style="background:' + pump.acc + '"></span>🎛 Commandes &amp; alarmes</h3><div class="ctrls">' +
       pump.controls.map(function (c) {
-        return '<div class="ctrl"><span class="b" style="background:' + pump.acc + '">' + esc(c[0]) + "</span><span>" + esc(c[1]) + "</span></div>";
+        return '<div class="ctrl"><span class="b" style="background:' + pump.acc + '">' + esc(c[0]) + '</span><span>' + esc(c[1]) + "</span></div>";
       }).join("") + "</div></div>";
   }
   if (pump.del) {
@@ -407,16 +825,25 @@ function compareHtml() {
 }
 
 /* ---------- app ---------- */
-var state = { tab: "mark3" };
+var state = { tab: "reflexe" };
 var checks = loadChecks();
 
 function render() {
   var app = document.getElementById("app");
   if (!app) return;
-  var tabs = PUMPS.map(function (p) {
+  var tabs = DOCS.map(function (d) {
+    return '<button type="button" class="tab' + (state.tab === d.id ? " active" : "") + '" data-tab="' + esc(d.id) + '">' + d.emoji + " " + esc(d.tabName) + "</button>";
+  }).join("") + PUMPS.map(function (p) {
     return '<button type="button" class="tab' + (state.tab === p.id ? " active" : "") + '" data-tab="' + esc(p.id) + '">' + p.emoji + " " + esc(p.name) + "</button>";
   }).join("") + '<button type="button" class="tab' + (state.tab === "compare" ? " active" : "") + '" data-tab="compare">📊 Comparatif</button>';
-  var body = state.tab === "compare" ? compareHtml() : pumpHtml(PUMPS.filter(function (p) { return p.id === state.tab; })[0], checks);
+  var body;
+  if (state.tab === "compare") {
+    body = compareHtml();
+  } else {
+    var doc = DOCS.filter(function (d) { return d.id === state.tab; })[0];
+    var pump = PUMPS.filter(function (p) { return p.id === state.tab; })[0];
+    body = doc ? docHtml(doc, checks) : (pump ? pumpHtml(pump, checks) : "");
+  }
   app.innerHTML = '<nav>' + tabs + "</nav>" + body;
 }
 
@@ -474,9 +901,11 @@ else main();
 /* exposition pour les tests */
 window.__MOTO = {
   PUMPS: PUMPS, COMPARE: COMPARE, CMP_ROWS: CMP_ROWS, FUEL_RULES: FUEL_RULES,
+  DOCS: DOCS,
   esc: esc, loadChecks: loadChecks, toggleCheck: toggleCheck, resetList: resetList,
   isDone: isDone, countDone: countDone, progressPct: progressPct,
   pumpHtml: pumpHtml, compareHtml: compareHtml, stepsHtml: stepsHtml,
+  docHtml: docHtml, sectionHtml: sectionHtml, tableHtml: tableHtml, signsHtml: signsHtml,
   state: state, STORE_KEY: STORE_KEY, APP_VERSION: APP_VERSION, loadVersion: loadVersion
 };
 </script>
